@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Flight Delays & Cancellations: A Data-Driven Story"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Overview
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: left
+    page-layout: full
+    code-fold: true
+    number-sections: true

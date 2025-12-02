@@ -1,0 +1,347 @@
+---
+title: "How Flights Behaved in July 2018: Delays, Cancellations, and Patterns"
+author: "Your Name"
+date: "2025-12-01"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 8,
+  fig.height = 4
+)
+
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(forcats)
+```
+
+```{r load-data}
+# Make sure these CSVs live in the "data" folder at the project root
+
+q1 <- readr::read_csv("data/Q1.csv", show_col_types = FALSE)
+q2 <- readr::read_csv("data/Q2.csv", show_col_types = FALSE)
+q3 <- readr::read_csv("data/Q3.csv", show_col_types = FALSE)
+q4 <- readr::read_csv("data/Q4csv.csv", show_col_types = FALSE)
+q5 <- readr::read_csv("data/Q5csv.csv", show_col_types = FALSE)
+q6 <- readr::read_csv("data/Q6csv.csv", show_col_types = FALSE)
+q6b <- readr::read_csv("data/Q6bcsv.csv", show_col_types = FALSE)
+q7 <- readr::read_csv("data/Q7csv.csv", show_col_types = FALSE)
+```
+
+## 1. Big Picture: What Story Are We Telling?
+
+In this project, we use SQL to summarize a month of U.S. flight activity and then build visualizations in R to answer:
+
+- **Which airlines suffer the worst delays?**
+- **How do flight volumes vary across days of the week?**
+- **Which airports are delay and cancellation “hot spots”?**
+- **How do daily flight counts evolve over time?**
+
+The goal is **not** just to show charts, but to tell a coherent story:
+
+> **Air travel demand is highly uneven across the week, a small number of carriers and airports experience extreme delays, and cancellations are concentrated at major hubs where disruptions ripple through the entire network.**
+
+---
+
+## 2. Cleaning and Preparing the Summary Tables
+
+Our SQL outputs already summarize the raw flights table, but some of the CSVs may include header rows or artifacts. We’ll clean those up here.
+
+```{r clean-data}
+# Q1: Max departure delay by airline
+q1_clean <- q1 |>
+  dplyr::filter(airline != "Reporting_Airline")
+
+# Q2: Max early departure minutes by airline
+q2_clean <- q2 |>
+  dplyr::filter(airline != "Reporting_Airline")
+
+# Q3: Flights by day of week (drop any NA / artifact row)
+q3_clean <- q3 |>
+  dplyr::filter(!is.na(day_name)) |>
+  dplyr::mutate(
+    # Use the rank from SQL to order bars from busiest to least busy
+    day_name = forcats::fct_reorder(day_name, day_rank)
+  )
+
+# Q4: Worst airport by average departure delay (already filtered in SQL)
+q4 <- q4
+
+# Q5: Airline + airport combinations with high average departure delays
+q5_clean <- q5
+
+# Q6: Total number of cancelled flights in the period
+total_cancelled <- q6$num_cancelled_flights[1]
+
+# Q6b: per-airport cancelled flights with reason code
+#   A = Carrier, B = Weather, C = National Airspace System (NAS)
+q6b_clean <- q6b
+
+# Q7: Daily flight counts and 3-day moving average
+q7_clean <- q7 |>
+  dplyr::filter(FlightDate != "FlightDate") |>
+  dplyr::mutate(
+    FlightDate = lubridate::ymd(FlightDate)
+  )
+```
+
+::: callout-note
+**Design choice:** I show a short “data cleaning” section to be transparent about the process. This builds trust with the audience and explains why some rows are excluded.
+:::
+
+---
+
+## 3. Airline Extremes: Who Has the Worst Delays?
+
+### 3.1 Maximum departure delay by airline
+
+```{r airline-max-delay}
+q1_clean |>
+  ggplot(aes(x = reorder(airline, max_dep_delay),
+             y = max_dep_delay)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Worst Departure Delays by Airline",
+    subtitle = "Maximum departure delay (in minutes) observed in the data",
+    x = "Airline (carrier code)",
+    y = "Max departure delay (minutes)"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 12)
+```
+
+```{r airline-delay-summary, echo=FALSE}
+q1_clean |>
+  dplyr::arrange(dplyr::desc(max_dep_delay)) |>
+  dplyr::slice_head(n = 5)
+```
+
+**Narrative:**
+
+- Some carriers have extreme worst-case delays of many hours.
+- Even if these are rare events, they highlight how **a single severely delayed flight can cascade** into missed connections and schedule disruptions.
+
+---
+
+### 3.2 Early departures: who leaves too soon?
+
+```{r airline-max-early}
+q2_clean |>
+  ggplot(aes(x = reorder(airline, max_early_departure_minutes),
+             y = max_early_departure_minutes)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Maximum Early Departures by Airline",
+    subtitle = "How early the earliest flight left, by airline",
+    x = "Airline (carrier code)",
+    y = "Max early departure (minutes)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r airline-early-summary, echo=FALSE}
+q2_clean |>
+  dplyr::arrange(dplyr::desc(max_early_departure_minutes)) |>
+  dplyr::slice_head(n = 5)
+```
+
+**Narrative:**
+
+- The same carriers that show large delays can also leave substantially early.
+- Early departures still matter: passengers arriving “on time” can miss flights if they board early.
+
+---
+
+## 4. When Do We Fly? Day-of-Week Flight Patterns
+
+```{r flights-by-day}
+q3_clean |>
+  ggplot(aes(x = day_name, y = num_flights)) +
+  geom_col() +
+  labs(
+    title = "Total Flights by Day of Week",
+    subtitle = "Busiest to least busy days based on SQL flight counts",
+    x = "Day of week",
+    y = "Number of flights"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 12)
+```
+
+```{r flights-by-day-table, echo=FALSE}
+q3_clean
+```
+
+**Key insight:**
+
+- Some weekdays carry substantially more flights than weekends, which has implications for staffing and capacity planning at airports.
+
+---
+
+## 5. Where Are the Worst Delays?
+
+### 5.1 Single worst airport by average delay
+
+```{r worst-airport}
+q4
+```
+
+**Narrative:**
+
+- This table highlights the airport with the **highest average departure delay**.
+- On average, flights there are significantly late, signaling reliability issues.
+
+### 5.2 Airline–airport combinations with long averages
+
+```{r worst-airline-airport}
+q5_top10 <- q5_clean |>
+  dplyr::arrange(dplyr::desc(avg_dep_delay)) |>
+  dplyr::slice_head(n = 10)
+
+q5_top10
+```
+
+```{r plot-worst-airline-airport}
+q5_top10 |>
+  dplyr::mutate(
+    label = paste(airline, "@", airport_name),
+    label = forcats::fct_reorder(label, avg_dep_delay)
+  ) |>
+  ggplot(aes(x = label, y = avg_dep_delay)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Airline–Airport Combinations by Average Departure Delay",
+    x = "Airline @ Airport",
+    y = "Average departure delay (minutes)"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**Narrative:**
+
+- Some combinations have average delays around or above an hour, suggesting **systematic route-level issues**, not just random noise.
+
+---
+
+## 6. Cancellations: How Often and Why?
+
+### 6.1 Overall cancellations
+
+```{r total-cancellations}
+total_cancelled
+```
+
+There are **`r total_cancelled` cancelled flights** in this period.
+
+### 6.2 Cancellations by reason and airport
+
+```{r cancellations-by-reason}
+canc_by_reason <- q6b_clean |>
+  dplyr::group_by(cancel_reason) |>
+  dplyr::summarise(
+    total_cancelled = sum(num_cancelled),
+    n_airports = dplyr::n(),
+    .groups = "drop"
+  )
+
+canc_by_reason
+```
+
+```{r plot-cancellations-by-reason}
+canc_by_reason |>
+  ggplot(aes(x = cancel_reason, y = total_cancelled)) +
+  geom_col() +
+  labs(
+    title = "Cancelled Flights by Reason Code (Subset of Airports)",
+    x = "Cancellation reason (A=Carrier, B=Weather, C=NAS)",
+    y = "Number of cancelled flights"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r cancellations-by-airport}
+canc_by_airport <- q6b_clean |>
+  dplyr::group_by(airport_name) |>
+  dplyr::summarise(
+    total_cancelled = sum(num_cancelled),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(dplyr::desc(total_cancelled)) |>
+  dplyr::slice_head(n = 10)
+
+canc_by_airport
+```
+
+```{r plot-cancellations-by-airport}
+canc_by_airport |>
+  dplyr::mutate(airport_name = forcats::fct_reorder(airport_name, total_cancelled)) |>
+  ggplot(aes(x = airport_name, y = total_cancelled)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Airports by Number of Cancellations (Subset)",
+    x = "Airport (city, state)",
+    y = "Cancelled flights"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**Narrative:**
+
+- Major hubs dominate the cancellation counts in this subset.
+- This concentration means disruptions at a few airports can impact passengers nationwide.
+
+---
+
+## 7. Daily Flight Volume and Short-Term Trends
+
+```{r daily-flights}
+q7_clean |>
+  ggplot(aes(x = FlightDate)) +
+  geom_line(aes(y = num_flights), linewidth = 0.8) +
+  geom_line(aes(y = avg_num_flights_prev_3_days),
+            linetype = "dashed", linewidth = 0.8) +
+  labs(
+    title = "Daily Flights and 3-Day Moving Average",
+    subtitle = "Short-term fluctuations in flight volume",
+    x = "Date",
+    y = "Number of flights"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 12)
+```
+
+```{r daily-flights-summary, echo=FALSE}
+q7_clean |>
+  dplyr::summarise(
+    min_flights = min(num_flights),
+    max_flights = max(num_flights),
+    mean_flights = mean(num_flights)
+  )
+```
+
+**Narrative:**
+
+- The solid line captures day-to-day variation, while the dashed line shows the underlying trend.
+- Combined with the day-of-week patterns, this helps airports and airlines anticipate peaks and valleys in demand.
+
+---
+
+## 8. Why This Story Matters
+
+- **Delays and cancellations are not random; they are concentrated in specific carriers, routes, and airports.**
+- **Demand is uneven across the week and across days, which should guide staffing and capacity decisions.**
+- By combining **SQL summaries** and **visual storytelling** in Quarto, we turn raw flight data into actionable insight for operations, policy, and passenger experience.

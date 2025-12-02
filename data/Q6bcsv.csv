@@ -1,0 +1,266 @@
+airport_name,cancel_reason,num_cancelled
+"Abilene, TX",C,2
+"Aguadilla, PR",A,4
+"Akron, OH",C,16
+"Albany, GA",C,2
+"Albany, NY",C,28
+"Albuquerque, NM",A,22
+"Alexandria, LA",C,4
+"Allentown/Bethlehem/Easton, PA",A,4
+"Amarillo, TX",B,8
+"Anchorage, AK",A,16
+"Appleton, WI",C,4
+"Arcata/Eureka, CA",B,16
+"Asheville, NC",B,10
+"Ashland, WV",C,6
+"Aspen, CO",C,124
+"Atlanta, GA",C,194
+"Atlantic City, NJ",B,4
+"Augusta, GA",A,10
+"Austin, TX",A,108
+"Bakersfield, CA",B,2
+"Baltimore, MD",C,514
+"Bangor, ME",C,36
+"Barrow, AK",A,2
+"Baton Rouge, LA",A,2
+"Beaumont/Port Arthur, TX",A,10
+"Belleville, IL",A,2
+"Bellingham, WA",A,8
+"Bethel, AK",A,4
+"Birmingham, AL",B,24
+"Bismarck/Mandan, ND",A,4
+"Bloomington/Normal, IL",C,4
+"Boise, ID",A,8
+"Boston, MA",C,228
+"Bozeman, MT",A,4
+"Branson, MO",A,2
+"Bristol/Johnson City/Kingsport, TN",B,6
+"Brownsville, TX",A,6
+"Buffalo, NY",C,82
+"Burbank, CA",A,52
+"Burlington, VT",C,38
+"Casper, WY",B,2
+"Cedar Rapids/Iowa City, IA",A,10
+"Champaign/Urbana, IL",C,8
+"Charleston, SC",C,60
+"Charleston/Dunbar, WV",A,10
+"Charlotte, NC",B,386
+"Charlottesville, VA",C,18
+"Chattanooga, TN",B,14
+"Chicago, IL",C,100
+"Chicago, IL",B,302
+"Christiansted, VI",B,2
+"Cincinnati, OH",C,112
+"Clarksburg/Fairmont, WV",B,2
+"Cleveland, OH",C,134
+"College Station/Bryan, TX",B,6
+"Colorado Springs, CO",B,20
+"Columbia, MO",A,4
+"Columbia, SC",B,12
+"Columbus, GA",C,2
+"Columbus, OH",C,132
+"Columbus, OH",A,4
+"Concord, NC",A,2
+"Corpus Christi, TX",A,8
+"Dallas, TX",B,68
+"Dallas/Fort Worth, TX",B,432
+"Dayton, OH",B,38
+"Daytona Beach, FL",B,6
+"Denver, CO",B,264
+"Des Moines, IA",C,10
+"Detroit, MI",C,80
+"Dothan, AL",C,2
+"Dubuque, IA",C,4
+"Duluth, MN",B,6
+"Durango, CO",A,8
+"El Paso, TX",A,10
+"Eugene, OR",A,6
+"Evansville, IN",A,8
+"Fairbanks, AK",A,2
+"Fargo, ND",A,4
+"Fayetteville, AR",B,14
+"Fayetteville, NC",B,6
+"Flagstaff, AZ",A,2
+"Flint, MI",C,6
+"Fort Lauderdale, FL",C,82
+"Fort Myers, FL",C,20
+"Fort Smith, AR",B,4
+"Fort Wayne, IN",B,6
+"Fresno, CA",A,10
+"Gainesville, FL",B,6
+"Grand Forks, ND",A,2
+"Grand Island, NE",B,4
+"Grand Junction, CO",A,26
+"Grand Rapids, MI",C,32
+"Green Bay, WI",B,4
+"Greensboro/High Point, NC",C,54
+"Greenville, NC",A,4
+"Greer, SC",C,30
+"Guam, TT",A,2
+"Gulfport/Biloxi, MS",B,2
+"Gustavus, AK",B,2
+"Harlingen/San Benito, TX",A,2
+"Harrisburg, PA",B,16
+"Hartford, CT",A,28
+"Hattiesburg/Laurel, MS",B,2
+"Hays, KS",B,4
+"Hilton Head, SC",B,4
+"Honolulu, HI",A,16
+"Houston, TX",B,44
+"Houston, TX",A,82
+"Huntsville, AL",B,8
+"Indianapolis, IN",C,112
+"Islip, NY",C,12
+"Jackson, WY",A,6
+"Jackson/Vicksburg, MS",A,6
+"Jacksonville, FL",C,72
+"Jacksonville/Camp Lejeune, NC",B,4
+"Jamestown, ND",B,2
+"Juneau, AK",B,2
+"Kahului, HI",A,8
+"Kalamazoo, MI",B,2
+"Kalispell, MT",A,2
+"Kansas City, MO",A,44
+"Ketchikan, AK",A,4
+"Key West, FL",A,2
+"Killeen, TX",A,8
+"Knoxville, TN",A,22
+"Kodiak, AK",B,2
+"Kona, HI",A,12
+"La Crosse, WI",C,4
+"Lafayette, LA",A,4
+"Lake Charles, LA",C,2
+"Lansing, MI",C,2
+"Laredo, TX",A,8
+"Las Vegas, NV",A,208
+"Latrobe, PA",B,2
+"Lawton/Fort Sill, OK",C,2
+"Lewisburg, WV",B,2
+"Lexington, KY",C,12
+"Lihue, HI",A,12
+"Little Rock, AR",B,10
+"Long Beach, CA",A,12
+"Longview, TX",C,2
+"Los Angeles, CA",A,276
+"Louisville, KY",C,36
+"Lubbock, TX",A,6
+"Lynchburg, VA",A,2
+"Madison, WI",C,22
+"Manchester, NH",C,46
+"Manhattan/Ft. Riley, KS",A,4
+"Marquette, MI",B,2
+"Martha's Vineyard, MA",B,6
+"Medford, OR",C,2
+"Melbourne, FL",A,2
+"Memphis, TN",A,38
+"Miami, FL",B,146
+"Midland/Odessa, TX",B,16
+"Milwaukee, WI",C,50
+"Minneapolis, MN",A,44
+"Minot, ND",A,2
+"Mission/McAllen/Edinburg, TX",A,10
+"Missoula, MT",A,8
+"Mobile, AL",C,8
+"Moline, IL",C,6
+"Monroe, LA",A,6
+"Monterey, CA",B,24
+"Montgomery, AL",C,6
+"Montrose/Delta, CO",A,6
+"Mosinee, WI",B,4
+"Muskegon, MI",B,6
+"Myrtle Beach, SC",B,34
+"Nantucket, MA",B,18
+"Nashville, TN",C,112
+"New Bern/Morehead/Beaufort, NC",B,6
+"New Haven, CT",B,12
+"New Orleans, LA",A,52
+"New York, NY",C,628
+"New York, NY",C,1044
+"Newark, NJ",C,680
+"Newburgh/Poughkeepsie, NY",A,4
+"Newport News/Williamsburg, VA",B,4
+"Norfolk, VA",C,102
+"Oakland, CA",A,114
+"Ogdensburg, NY",A,4
+"Oklahoma City, OK",A,22
+"Omaha, NE",A,40
+"Ontario, CA",A,26
+"Orlando, FL",A,174
+"Paducah, KY",B,2
+"Palm Springs, CA",B,2
+"Panama City, FL",C,4
+"Pasco/Kennewick/Richland, WA",B,2
+"Pensacola, FL",B,14
+"Peoria, IL",A,8
+"Philadelphia, PA",B,410
+"Phoenix, AZ",A,40
+"Phoenix, AZ",A,186
+"Pittsburgh, PA",C,134
+"Ponce, PR",A,2
+"Portland, ME",C,72
+"Portland, OR",A,42
+"Providence, RI",C,44
+"Punta Gorda, FL",B,2
+"Quincy, IL",B,4
+"Raleigh/Durham, NC",C,132
+"Rapid City, SD",B,2
+"Reno, NV",A,18
+"Richmond, VA",C,86
+"Roanoke, VA",C,8
+"Rochester, MN",B,2
+"Rochester, NY",C,62
+"Rock Springs, WY",B,2
+"Rockford, IL",A,4
+"Sacramento, CA",A,34
+"Saginaw/Bay City/Midland, MI",B,8
+"Saipan, TT",A,2
+"Salt Lake City, UT",B,34
+"San Angelo, TX",A,4
+"San Antonio, TX",A,38
+"San Diego, CA",A,82
+"San Francisco, CA",A,190
+"San Jose, CA",A,76
+"San Juan, PR",A,28
+"San Luis Obispo, CA",A,2
+"Santa Ana, CA",A,38
+"Santa Barbara, CA",A,8
+"Santa Fe, NM",A,8
+"Santa Rosa, CA",B,2
+"Sarasota/Bradenton, FL",A,4
+"Savannah, GA",C,42
+"Scranton/Wilkes-Barre, PA",B,10
+"Seattle, WA",A,70
+"Shreveport, LA",C,8
+"Sioux Falls, SD",A,10
+"Sitka, AK",B,2
+"South Bend, IN",A,4
+"Spokane, WA",A,12
+"Springfield, IL",C,4
+"Springfield, MO",A,8
+"St. Louis, MO",C,130
+"St. Petersburg, FL",A,4
+"Stillwater, OK",C,6
+"Stockton, CA",A,4
+"Syracuse, NY",C,40
+"Tallahassee, FL",B,12
+"Tampa, FL",A,74
+"Texarkana, AR",C,6
+"Toledo, OH",B,2
+"Traverse City, MI",C,16
+"Trenton, NJ",A,14
+"Tucson, AZ",A,8
+"Tulsa, OK",A,18
+"Tyler, TX",A,6
+"Valdosta, GA",C,2
+"Valparaiso, FL",A,24
+"Vernal, UT",B,2
+"Waco, TX",A,12
+"Washington, DC",C,354
+"Washington, DC",A,62
+"Waterloo, IA",B,4
+"West Palm Beach/Palm Beach, FL",B,22
+"White Plains, NY",B,14
+"Wichita Falls, TX",A,8
+"Wichita, KS",B,10
+"Wilmington, NC",C,16
+"Worcester, MA",C,4
